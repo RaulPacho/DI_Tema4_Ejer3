@@ -23,7 +23,7 @@ namespace DI_Tema4_Ejer3
         private void Button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog oFD = new OpenFileDialog();
-            oFD.DefaultExt = "JPG (.jpg) | *.jpg |PNG (.png)| *.png";
+            oFD.Filter = "JPG (.jpg) |*.jpg|PNG (.png)|*.png|Todo |*.*";
            
             oFD.ShowDialog();
 
@@ -31,7 +31,10 @@ namespace DI_Tema4_Ejer3
 
             if (File.Exists(path))
             {
-                Image i = Image.FromFile(path);
+                try
+                {
+                    Image i = Image.FromFile(path);
+                
                 Form f2 = new Form();
                 f2.BackgroundImage = i;
                 f2.SetBounds(0,0,i.Width,i.Height);
@@ -47,7 +50,17 @@ namespace DI_Tema4_Ejer3
                 {
                     f2.Show();
                 }
-                
+                }
+                catch(OutOfMemoryException err)
+                {
+                    MessageBox.Show("Archivo Corrupto", "Pues eso, archivo corrupto", MessageBoxButtons.OK);
+                }
+                catch (ArgumentException err)
+                {
+                    MessageBox.Show("Eso no es una imagen", "Pues eso, no es una imagen", MessageBoxButtons.OK);
+                }
+
+
             }
             
         }
